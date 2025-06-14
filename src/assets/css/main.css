@@ -55,3 +55,7 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
 }
+
+.hero {
+    background: url("@/assets/img/hero-bg.jpg") 50% 100% / cover no-repeat;
+}
