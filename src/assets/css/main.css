@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+/* Montserrat Regular */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('@/assets/fonts/Montserrat-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Montserrat Medium */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('@/assets/fonts/Montserrat-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Montserrat SemiBold */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('@/assets/fonts/Montserrat-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Montserrat Bold */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('@/assets/fonts/Montserrat-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+.mont-regular {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.mont-medium {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.mont-semibold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.mont-bold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
