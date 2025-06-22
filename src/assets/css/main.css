@@ -36,6 +36,11 @@
     font-display: swap;
 }
 
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 .mont-regular {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -57,5 +62,5 @@
 }
 
 .hero {
-    background: url("@/assets/img/hero-bg.jpg") 50% 100% / cover no-repeat;
+    background: url('@/assets/img/hero-bg-anim.gif') 50% 100% / cover no-repeat;
 }
