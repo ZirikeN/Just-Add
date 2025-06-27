@@ -3,7 +3,7 @@
         class="bg-white m-4 rounded-[16px] pt-4 pb-4 pr-20 pl-20 flex justify-between items-center"
     >
         <a href="/">
-            <img src="@/assets/img/logo.svg" alt="Logo" />
+            <img src="@/assets/img/logo-full.svg" alt="Logo" />
         </a>
 
         <div class="flex gap-16">
