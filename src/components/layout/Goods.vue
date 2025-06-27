@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col m-4 rounded-[16px] bg-white pr-20 pl-20 pt-[64px] pb-4">
+    <div class="flex flex-col m-4 rounded-[16px] bg-white pl-20 pt-[64px] pb-4">
         <div class="flex flex-wrap justify-between pb-[40px]">
             <h1 class="mont-medium text-[64px]">Наши вкусы</h1>
 
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper flex flex-col">
             <swiper
                 :modules="modules"
                 :slides-per-view="slidesPerView"
@@ -38,14 +38,39 @@
                 :long-swipes-ratio="0.1"
             >
                 <swiper-slide v-for="(slide, index) in slides" :key="index">
-                    <div class="slide-content">
-                        <img :src="slide.URL" :alt="slide.title" />
-                        <h3>{{ slide.title }}</h3>
-                        <p>{{ slide.description }}</p>
+                    <div class="slide-content bg-[#F7F7F7] rounded-[20px]">
+                        <img :src="slide.URL" :alt="slide.title" class="w-[380px] h-[345px]" />
+                        <div class="absolute w-[40px] h-[40px] top-[24px] right-[24px] bg-white rounded-[50%] flex justify-center items-center cursor-pointer">
+                            <img src="@/assets/img/like.svg" alt="like" >
+                        </div>
+                        <div class="p-[24px]">
+                            <a href="#" class="flex justify-between text-[20px] mont-semibold">
+                                <h3>{{ slide.title }}</h3>
+                                <span>€2</span>
+                            </a>
+                            <p class="text-[16px] mont-regular pb-[24px]">
+                                {{ slide.description }}
+                            </p>
+
+                            <div class="flex justify-between">
+                                <a href="#" class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] bg-black text-white rounded-[200px] border-1 border-black hover:bg-transparent hover:text-black transform hover:-translate-y-1 transition-all duration-200">В корзину</a>
+                                <a href="#" class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] rounded-[200px] border-1 border-black hover:bg-black hover:text-white transform hover:-translate-y-1 transition-all duration-200">Подробнее</a>
+                            </div>
+                        </div>
                     </div>
                 </swiper-slide>
+            </swiper>
 
-                <div class="navigation">
+            <div class="slider__attributes flex items-center pt-[48px] pb-[64px] pr-20 gap-[24px]">
+                <!-- Прогресс-бар -->
+                <div class="w-full bg-gray-200 h-1 mt-4">
+                    <div
+                        class="bg-[#FF921C] h-full transition-all duration-300"
+                        :style="{ width: progress + '%' }"
+                    ></div>
+                </div>
+
+                <div class="navigation flex nowrap gap-[8px]">
                     <button class="custom-prev">
                         <img class="rotate-180" src="@/assets/img/arrow.svg" alt="Arrow" />
                     </button>
@@ -53,17 +78,7 @@
                         <img src="@/assets/img/arrow.svg" alt="Arrow" />
                     </button>
                 </div>
-
-                <div class="relative">
-                    <!-- Прогресс-бар -->
-                    <div class="w-full bg-gray-200 h-1 mt-4">
-                        <div
-                            class="bg-black h-full transition-all duration-300"
-                            :style="{ width: progress + '%' }"
-                        ></div>
-                    </div>
-                </div>
-            </swiper>
+            </div>
         </div>
     </div>
 </template>
@@ -92,42 +107,42 @@ const onSlideChange = (swiper) => {
 const slides = ref([
     {
         title: 'Облепиха-апельсин',
-        URL: new URL('@/assets/img/tea-1.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-1.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Смородина-базилик',
-        URL: new URL('@/assets/img/tea-2.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-2.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Черника-малина',
-        URL: new URL('@/assets/img/tea-3.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-3.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Имбирь-лайм-мед',
-        URL: new URL('@/assets/img/tea-4.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-4.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Облепиха-апельсин',
-        URL: new URL('@/assets/img/tea-1.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-1.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Смородина-базилик',
-        URL: new URL('@/assets/img/tea-2.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-2.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Черника-малина',
-        URL: new URL('@/assets/img/tea-3.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-3.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
     {
         title: 'Имбирь-лайм-мед',
-        URL: new URL('@/assets/img/tea-4.jpg', import.meta.url),
+        URL: new URL('@/assets/img/tea-4.png', import.meta.url),
         description: 'Цитрусовый, сладкий, кислый',
     },
 ])
@@ -151,8 +166,8 @@ const paginationOptions = {
 
 // Опции навигации с кастомными селекторами
 const navigationOptions = {
-    nextEl: '.navigation .custom-next',
-    prevEl: '.navigation .custom-prev',
+    nextEl: '.swiper-wrapper .slider__attributes .navigation .custom-next',
+    prevEl: '.swiper-wrapper .slider__attributes .navigation .custom-prev',
     disabledClass: 'custom-navigation-disabled',
     enabled: true,
     hideOnClick: false,
@@ -217,8 +232,8 @@ onBeforeUnmount(() => {
 }
 
 .navigation {
-    position: absolute;
-    top: 50%;
+    /* position: absolute; */
+    /* top: 50%; */
     left: 0;
     right: 0;
     display: flex;
@@ -242,13 +257,13 @@ onBeforeUnmount(() => {
     border: none;
 }
 
-.custom-prev {
-    transform: translateX(-50%);
+/* .custom-prev {
+    transform: translateX(-90%);
 }
 
 .custom-next {
-    transform: translateX(50%);
-}
+    transform: translateX(-10%);
+} */
 
 .swiper-button-disabled {
     opacity: 0.5;
