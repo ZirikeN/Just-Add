@@ -160,8 +160,6 @@ const slidesPerView = computed(() => {
 const paginationOptions = {
     clickable: true,
     type: 'progressbar', // Включаем прогресс-бар
-    progressbarFillClass: 'custom-progressbar-fill', // Класс для заполненной части
-    progressbarOppositeClass: 'custom-progressbar', // Класс для всей линии
 }
 
 // Опции навигации с кастомными селекторами
@@ -203,17 +201,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.swiper-overflow-container {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    overflow: visible;
-    padding: 20px 0;
-}
-
 .swiper {
     overflow: visible;
     width: 100%;
@@ -232,8 +219,6 @@ onBeforeUnmount(() => {
 }
 
 .navigation {
-    /* position: absolute; */
-    /* top: 50%; */
     left: 0;
     right: 0;
     display: flex;
@@ -257,46 +242,9 @@ onBeforeUnmount(() => {
     border: none;
 }
 
-/* .custom-prev {
-    transform: translateX(-90%);
-}
-
-.custom-next {
-    transform: translateX(-10%);
-} */
-
 .swiper-button-disabled {
     opacity: 0.5;
     cursor: default;
-}
-
-/* Стили для прогресс-бара */
-.custom-progressbar {
-    height: 4px;
-    background-color: rgba(0, 0, 0, 0.1);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 2px;
-}
-
-.custom-progressbar-fill {
-    height: 100%;
-    background-color: #000; /* Цвет заполненной части */
-    border-radius: 2px;
-    transition: width 0.3s ease;
-}
-
-/* Скрываем стандартные буллеты */
-.swiper-pagination-bullets {
-    display: none;
-}
-
-/* Контейнер для прогресс-бара */
-.swiper-pagination {
-    position: relative;
-    margin-top: 20px;
 }
 </style>
 
