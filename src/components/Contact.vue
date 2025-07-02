@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-[#FF921C] m-4 rounded-[16px] flex justify-between items-center gap-[48px] p-[48px]"
+        class="bg-[#FF921C] mt-4 mr-4 ml-4 rounded-[16px] flex justify-between items-center gap-[48px] p-[48px]"
     >
         <div class="flex flex-col w-[49%]">
             <h3 class="text-[44px] mont-medium text-white mb-[48px]">
