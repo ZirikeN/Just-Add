@@ -1,0 +1,13 @@
+:root {
+    --neutral-color-10: #f9f9f9;
+    --neutral-color-20: #fff;
+    --neutral-color-205: #fff;
+    --neutral-color-30: #000;
+}
+
+[data-theme='dark'] {
+    --neutral-color-10: #2c2c2c;
+    --neutral-color-20: #404045;
+    --neutral-color-205: #000;
+    --neutral-color-30: #fff;
+}

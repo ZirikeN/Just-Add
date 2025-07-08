@@ -1,6 +1,6 @@
 <template>
-    <div class="m-4 rounded-[16px] bg-white pb-[64px]">
-        <h2 class="pt-[64px] pb-[48px] text-center mont-medium text-[64px]">Часто задаваемые вопросы</h2>
+    <div class="m-4 rounded-[16px] bg-[var(--neutral-color-20)] pb-[64px]">
+        <h2 class="pt-[64px] pb-[48px] text-center mont-medium text-[64px] text-[var(--neutral-color-30)]">Часто задаваемые вопросы</h2>
         <div class="p-4 flex justify-center ">
             <div class="w-[80%] flex flex-col gap-2">
                 <div
@@ -11,7 +11,7 @@
                     <!-- Заголовок -->
                     <button
                         @click="toggleAccordion(index)"
-                        class="w-full px-4 py-3 text-left flex items-center justify-between transition-colors duration-200 focus:outline-none"
+                        class="w-full px-4 py-3 text-left text-[var(--neutral-color-30)] flex items-center justify-between transition-colors duration-200 focus:outline-none"
                     >
                         <span class="mont-medium text-[28px] color-[#FF921C]">{{ item.title }}</span>
                         <svg
@@ -32,7 +32,7 @@
     
                     <!-- Контент -->
                     <div
-                        class="transition-all duration-300 overflow-hidden"
+                        class="transition-all duration-300 overflow-hidden text-[var(--neutral-color-30)]"
                         :style="item.isOpen ? `max-height: ${item.contentHeight}px` : 'max-height: 0px'"
                         ref="contentElements"
                     >

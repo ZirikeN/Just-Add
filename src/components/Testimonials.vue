@@ -1,6 +1,6 @@
 <template>
-    <div class="m-4 rounded-[16px] bg-white pb-[64px]">
-        <h2 class="pt-[64px] pb-[48px] text-center mont-medium text-[64px]">
+    <div class="m-4 rounded-[16px] bg-[var(--neutral-color-20)] pb-[64px]">
+        <h2 class="pt-[64px] pb-[48px] text-center mont-medium text-[64px] text-[var(--neutral-color-30)]">
             Отзывы наших клиентов
         </h2>
 

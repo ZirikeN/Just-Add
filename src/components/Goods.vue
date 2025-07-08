@@ -1,10 +1,10 @@
 <template>
-    <div class="flex flex-col m-4 rounded-[16px] bg-white pl-20 pt-[64px] pb-4">
+    <div class="flex flex-col m-4 rounded-[16px] bg-[var(--neutral-color-20)] pl-20 pt-[64px] pb-4">
         <div class="flex flex-wrap justify-between pb-[40px]">
-            <h1 class="mont-medium text-[64px]">Наши вкусы</h1>
+            <h1 class="mont-medium text-[64px] text-[var(--neutral-color-30)]">Наши вкусы</h1>
 
             <div class="flex flex-col max-w-[750px] gap-[16px]">
-                <p class="mont-medium text-[16px]">
+                <p class="mont-medium text-[16px] text-[var(--neutral-color-30)]">
                     В наших разделах Signature Tea и Signature Lemonade вы найдете восхитительное
                     разнообразие вкусов, разработанных для удовлетворения любого вкуса. Независимо
                     от того, находитесь ли вы дома, на работе или в пути, наши восхитительные
@@ -14,7 +14,7 @@
                 </p>
 
                 <div class="flex">
-                    <a href="#" class="flex items-center mont-semibold text-[20px] gap-[14px]">
+                    <a href="#" class="flex items-center mont-semibold text-[20px] gap-[14px] text-[var(--neutral-color-30)]">
                         Посмотреть все
                         <img src="@/assets/img/arrow-right.svg" alt="Arrow Right" />
                     </a>
