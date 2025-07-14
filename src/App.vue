@@ -8,7 +8,11 @@
             <Advantages></Advantages>
             <AboutUs></AboutUs>
             <div class="m-4 rounded-[16px]">
-                <img class="w-full h-full rounded-[16px]" src="@/assets/img/enticement-img.jpg" alt="Enticement">
+                <img
+                    class="w-full h-full rounded-[16px]"
+                    src="@/assets/img/enticement-img.jpg"
+                    alt="Enticement"
+                />
             </div>
             <Testimonials></Testimonials>
             <FAQ></FAQ>
@@ -19,6 +23,8 @@
 </template>
 
 <script setup>
+import { ref, provide } from 'vue'
+
 import Header from './components/Header.vue'
 import Hero from './components/Hero.vue'
 import Details from './components/Details.vue'
@@ -29,7 +35,17 @@ import Testimonials from './components/Testimonials.vue'
 import FAQ from './components/FAQ.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
+
+const isModalOpen = ref(false)
+
+provide('modalState', {
+    isModalOpen,
+    openModal: () => {
+        isModalOpen.value = true
+        console.log(isModalOpen.value)
+    },
+    closeModal: () => (isModalOpen.value = false),
+})
 </script>
 
-<style>
-</style>
+<style></style>

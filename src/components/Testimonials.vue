@@ -17,7 +17,7 @@
             >
                 <swiper-slide v-for="(review, index) in reviews" :key="index">
                     <div
-                        class="slide-content border-1 border-[#c4c4c4] rounded-[16px]"
+                        class="slide-content border-1 border-[var(--neutral-color-40)] rounded-[16px] bg-[var(--neutral-color-40)]! text-[var(--neutral-color-30)] p-[24px]"
                         :class="{ 'center-slide': isCenterSlide(index) }"
                     >
                         <p class="text-[16px] mont-medium pb-[24px]">{{ review.text }}</p>

@@ -3,6 +3,7 @@
     --neutral-color-20: #fff;
     --neutral-color-205: #fff;
     --neutral-color-30: #000;
+    --neutral-color-40: #F7F7F7;
 }
 
 [data-theme='dark'] {
@@ -10,4 +11,5 @@
     --neutral-color-20: #404045;
     --neutral-color-205: #000;
     --neutral-color-30: #fff;
+    --neutral-color-40: #686868;
 }

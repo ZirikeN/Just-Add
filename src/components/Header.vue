@@ -33,12 +33,12 @@
 
             <div class="flex items-center gap-12">
                 <div class="flex gap-4">
-                    <a
-                        href="#"
+                    <button
+                        @click="openModal"
                         class="flex justify-center items-center border-1 border-[#FF921C] rounded-[200px] pt-3 pb-3 pr-14 pl-14 transform hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] hover:-translate-y-1 transition-all duration-200"
                     >
                         <img src="@/assets/img/user.svg" alt="User" />
-                    </a>
+                    </button>
                     <a
                         href="#"
                         class="flex justify-center items-center gap-2 border-1 border-[#FF921C] rounded-[200px] pt-3 pb-3 pr-14 pl-14 mont-semibold text-[20px] transform hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] hover:text-[#fa8302] transform hover:-translate-y-1 transition-all duration-200"
@@ -94,9 +94,18 @@
             </div>
         </div>
     </header>
+
+    <PopUp></PopUp>
 </template>
 
-<script setup></script>
+<script setup>
+import PopUp from './layout/PopUp.vue';
+
+import { inject } from 'vue'
+
+const { openModal } = inject('modalState')
+</script>
+
 <style scoped>
 .theme-switch {
     --toggle-size: 20px;
