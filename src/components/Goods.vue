@@ -14,7 +14,10 @@
                 </p>
 
                 <div class="flex">
-                    <a href="#" class="flex items-center mont-semibold text-[20px] gap-[14px] text-[var(--neutral-color-30)]">
+                    <a
+                        href="#"
+                        class="flex items-center mont-semibold text-[20px] gap-[14px] text-[var(--neutral-color-30)]"
+                    >
                         Посмотреть все
                         <img src="@/assets/img/arrow-right.svg" alt="Arrow Right" />
                     </a>
@@ -23,7 +26,15 @@
         </div>
 
         <div class="swiper-wrapper flex flex-col">
+            <div class="loadingspinner" v-if="loading">
+                <div id="square1"></div>
+                <div id="square2"></div>
+                <div id="square3"></div>
+                <div id="square4"></div>
+                <div id="square5"></div>
+            </div>
             <swiper
+                v-else
                 :modules="modules"
                 :slides-per-view="slidesPerView"
                 :slides-per-group="1"
@@ -35,24 +46,39 @@
                 :speed="300"
                 :long-swipes-ratio="0.1"
             >
-                <swiper-slide v-for="(slide, index) in slides" :key="index">
+                <swiper-slide v-for="(product, index) in products" :key="index">
                     <div class="slide-content bg-[var(--neutral-color-40)] rounded-[20px]">
-                        <img :src="slide.URL" :alt="slide.title" class="w-[380px] h-[345px]" />
-                        <div class="absolute w-[40px] h-[40px] top-[24px] right-[24px] bg-white rounded-[50%] flex justify-center items-center cursor-pointer">
-                            <img src="@/assets/img/like.svg" alt="like" >
+                        <img :src="product.URL" :alt="product.title" class="w-[380px] h-[345px]" />
+                        <div
+                            class="absolute w-[40px] h-[40px] top-[24px] right-[24px] bg-white rounded-[50%] flex justify-center items-center cursor-pointer"
+                        >
+                            <img src="@/assets/img/like.svg" alt="like" />
                         </div>
                         <div class="p-[24px]">
-                            <a href="#" class="flex justify-between text-[20px] text-[var(--neutral-color-30)] mont-semibold">
-                                <h3>{{ slide.title }}</h3>
+                            <a
+                                href="#"
+                                class="flex justify-between text-[20px] text-[var(--neutral-color-30)] mont-semibold"
+                            >
+                                <h3>{{ product.title }}</h3>
                                 <span>€2</span>
                             </a>
-                            <p class="text-[16px] text-[var(--neutral-color-30)] mont-regular pb-[24px]">
-                                {{ slide.description }}
+                            <p
+                                class="text-[16px] text-[var(--neutral-color-30)] mont-regular pb-[24px]"
+                            >
+                                {{ product.description }}
                             </p>
 
                             <div class="flex justify-between">
-                                <a href="#" class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] bg-black text-white rounded-[200px] border-1 border-black hover:bg-transparent hover:text-[var(--neutral-color-30)] transform hover:-translate-y-1 transition-all duration-200">В корзину</a>
-                                <a href="#" class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] rounded-[200px] border-1 border-black text-[var(--neutral-color-30)] hover:bg-black hover:text-white transform hover:-translate-y-1 transition-all duration-200">Подробнее</a>
+                                <a
+                                    href="#"
+                                    class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] bg-black text-white rounded-[200px] border-1 border-black hover:bg-transparent hover:text-[var(--neutral-color-30)] transform hover:-translate-y-1 transition-all duration-200"
+                                    >В корзину</a
+                                >
+                                <a
+                                    href="#"
+                                    class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] rounded-[200px] border-1 border-black text-[var(--neutral-color-30)] hover:bg-black hover:text-white transform hover:-translate-y-1 transition-all duration-200"
+                                    >Подробнее</a
+                                >
                             </div>
                         </div>
                     </div>
@@ -82,6 +108,8 @@
 </template>
 
 <script setup>
+import { useProductsStore } from '../stores/products'
+import { storeToRefs } from 'pinia'
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 // Импорт основных компонентов Swiper
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -92,58 +120,22 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 
 const activeIndex = ref(0)
+const productsStore = useProductsStore()
+const { products, loading, error } = storeToRefs(productsStore)
+const { getProducts } = productsStore
+
+// Функция для загрузки продуктов
+const loadProducts = async () => {
+    await getProducts()
+}
 
 const progress = computed(() => {
-    return slides.value.length ? ((activeIndex.value + 4) / slides.value.length) * 100 : 0
+    return products.value.length ? ((activeIndex.value + 4) / products.value.length) * 100 : 0
 })
 
 const onSlideChange = (swiper) => {
     activeIndex.value = swiper.activeIndex
 }
-
-// Данные слайдов
-const slides = ref([
-    {
-        title: 'Облепиха-апельсин',
-        URL: new URL('@/assets/img/tea-1.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Смородина-базилик',
-        URL: new URL('@/assets/img/tea-2.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Черника-малина',
-        URL: new URL('@/assets/img/tea-3.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Имбирь-лайм-мед',
-        URL: new URL('@/assets/img/tea-4.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Облепиха-апельсин',
-        URL: new URL('@/assets/img/tea-1.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Смородина-базилик',
-        URL: new URL('@/assets/img/tea-2.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Черника-малина',
-        URL: new URL('@/assets/img/tea-3.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-    {
-        title: 'Имбирь-лайм-мед',
-        URL: new URL('@/assets/img/tea-4.png', import.meta.url),
-        description: 'Цитрусовый, сладкий, кислый',
-    },
-])
 
 // Настройки Swiper
 const modules = [Navigation, Pagination, Autoplay]
@@ -250,5 +242,260 @@ onBeforeUnmount(() => {
 /* Глобальные стили для Swiper */
 .swiper-wrapper {
     transition-timing-function: linear !important;
+}
+
+/* Loader */
+
+.loadingspinner {
+    --square: 26px;
+    --offset: 30px;
+    --duration: 2.4s;
+    --delay: 0.2s;
+    --timing-function: ease-in-out;
+    --in-duration: 0.4s;
+    --in-delay: 0.1s;
+    --in-timing-function: ease-out;
+    width: calc(3 * var(--offset) + var(--square));
+    height: calc(2 * var(--offset) + var(--square));
+    padding: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.loadingspinner div {
+    display: inline-block;
+    background: darkorange;
+    /*background: var(--text-color);*/
+    /*box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);*/
+    border: none;
+    border-radius: 2px;
+    width: var(--square);
+    height: var(--square);
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    font-size: 6pt;
+    color: black;
+}
+
+.loadingspinner #square1 {
+    left: calc(0 * var(--offset));
+    top: calc(0 * var(--offset));
+    animation:
+        square1 var(--duration) var(--delay) var(--timing-function) infinite,
+        squarefadein var(--in-duration) calc(1 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square2 {
+    left: calc(0 * var(--offset));
+    top: calc(1 * var(--offset));
+    animation:
+        square2 var(--duration) var(--delay) var(--timing-function) infinite,
+        squarefadein var(--in-duration) calc(1 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square3 {
+    left: calc(1 * var(--offset));
+    top: calc(1 * var(--offset));
+    animation:
+        square3 var(--duration) var(--delay) var(--timing-function) infinite,
+        squarefadein var(--in-duration) calc(2 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square4 {
+    left: calc(2 * var(--offset));
+    top: calc(1 * var(--offset));
+    animation:
+        square4 var(--duration) var(--delay) var(--timing-function) infinite,
+        squarefadein var(--in-duration) calc(3 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square5 {
+    left: calc(3 * var(--offset));
+    top: calc(1 * var(--offset));
+    animation:
+        square5 var(--duration) var(--delay) var(--timing-function) infinite,
+        squarefadein var(--in-duration) calc(4 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+@keyframes square1 {
+    0% {
+        left: calc(0 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    8.333% {
+        left: calc(0 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    100% {
+        left: calc(0 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+}
+
+@keyframes square2 {
+    0% {
+        left: calc(0 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    8.333% {
+        left: calc(0 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    16.67% {
+        left: calc(1 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    25.00% {
+        left: calc(1 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    83.33% {
+        left: calc(1 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    91.67% {
+        left: calc(1 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    100% {
+        left: calc(0 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+}
+
+@keyframes square3 {
+    0%,
+    100% {
+        left: calc(1 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    16.67% {
+        left: calc(1 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    25.00% {
+        left: calc(1 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    33.33% {
+        left: calc(2 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    41.67% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    66.67% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    75.00% {
+        left: calc(2 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    83.33% {
+        left: calc(1 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    91.67% {
+        left: calc(1 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+}
+
+@keyframes square4 {
+    0% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    33.33% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    41.67% {
+        left: calc(2 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    50.00% {
+        left: calc(3 * var(--offset));
+        top: calc(2 * var(--offset));
+    }
+
+    58.33% {
+        left: calc(3 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    100% {
+        left: calc(3 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+}
+
+@keyframes square5 {
+    0% {
+        left: calc(3 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    50.00% {
+        left: calc(3 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    58.33% {
+        left: calc(3 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    66.67% {
+        left: calc(2 * var(--offset));
+        top: calc(0 * var(--offset));
+    }
+
+    75.00% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+
+    100% {
+        left: calc(2 * var(--offset));
+        top: calc(1 * var(--offset));
+    }
+}
+
+@keyframes squarefadein {
+    0% {
+        transform: scale(0.75);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 </style>

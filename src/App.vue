@@ -23,7 +23,9 @@
 </template>
 
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, onMounted } from 'vue'
+
+import { useProductsStore } from './stores/products'
 
 import Header from './components/Header.vue'
 import Hero from './components/Hero.vue'
@@ -38,6 +40,8 @@ import Footer from './components/Footer.vue'
 
 const isModalOpen = ref(false)
 
+const productsStore = useProductsStore()
+
 provide('modalState', {
     isModalOpen,
     openModal: () => {
@@ -45,6 +49,10 @@ provide('modalState', {
         console.log(isModalOpen.value)
     },
     closeModal: () => (isModalOpen.value = false),
+})
+
+onMounted(() => {
+    productsStore.getProducts()
 })
 </script>
 
