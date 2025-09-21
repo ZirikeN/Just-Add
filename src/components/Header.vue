@@ -9,11 +9,7 @@
         <div class="flex gap-16">
             <ul class="flex items-center gap-4">
                 <li>
-                    <a
-                        href="#"
-                        class="border-1 border-[#FF921C] text-[var(--neutral-color-30)] rounded-[200px] pt-3 pb-3 pr-8 pl-8 mont-semibold text-[20px] inline-block hover:text-[#fa8302] transform hover:-translate-y-1 hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] transition-all duration-200"
-                        >Товары</a
-                    >
+                    <router-link to="/catalog" class="border-1 border-[#FF921C] text-[var(--neutral-color-30)] rounded-[200px] pt-3 pb-3 pr-8 pl-8 mont-semibold text-[20px] inline-block hover:text-[#fa8302] transform hover:-translate-y-1 hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] transition-all duration-200">Товары</router-link>
                 </li>
                 <li>
                     <a
@@ -109,13 +105,9 @@ const { openModal } = inject('modalState')
 <style scoped>
 .theme-switch {
     --toggle-size: 20px;
-    /* the size is adjusted using font-size,
-       this is not transform scale,
-       so you can choose any size */
     --container-width: 5.625em;
     --container-height: 2.5em;
     --container-radius: 6.25em;
-    /* radius 0 - minecraft mode :) */
     --container-light-bg: #3d7eae;
     --container-night-bg: #1d1f2c;
     --circle-container-diameter: 3.375em;

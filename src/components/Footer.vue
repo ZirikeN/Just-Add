@@ -8,7 +8,7 @@
 
                 <ul class="mont-regular text-[16px] flex gap-2 flex-col">
                     <li>
-                        <a href="#" class="hover:text-[#FF921C] transition-all">Товары</a>
+                        <router-link to="/catalog" class="hover:text-[#FF921C] transition-all">Товары</router-link>
                     </li>
                     <li>
                         <a href="#" class="hover:text-[#FF921C] transition-all">О нас</a>
