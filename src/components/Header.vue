@@ -44,7 +44,7 @@
                     </a>
                 </div>
                 <label class="theme-switch">
-                    <input class="theme-switch__checkbox" type="checkbox" data-theme-switcher/>
+                    <input class="theme-switch__checkbox" type="checkbox" :checked="themeStore.currentTheme === 'dark'" @change="themeStore.toggleTheme">
                     <div class="theme-switch__container">
                         <div class="theme-switch__clouds"></div>
                         <div class="theme-switch__stars-container">
@@ -97,9 +97,12 @@
 <script setup>
 import PopUp from './layout/PopUp.vue';
 
+import {useThemeStore} from '../stores/theme'
+
 import { inject } from 'vue'
 
 const { openModal } = inject('modalState')
+const themeStore = useThemeStore()
 </script>
 
 <style scoped>

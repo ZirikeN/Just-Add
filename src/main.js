@@ -12,11 +12,4 @@ const app = createApp(App)
 app.use(pinia)
 app.use(router)
 
-
 app.mount('#app')
-
-setTimeout(() => {
-    import('./assets/theme').then((module) => {
-        module.useTheme()
-    })
-}, 1)
