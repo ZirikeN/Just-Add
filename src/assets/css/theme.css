@@ -4,6 +4,7 @@
     --neutral-color-205: #fff;
     --neutral-color-30: #000;
     --neutral-color-40: #F7F7F7;
+    --neutral-color-50: #fff;
 }
 
 :root[data-theme='dark'] {
@@ -12,4 +13,5 @@
     --neutral-color-205: #000;
     --neutral-color-30: #fff;
     --neutral-color-40: #686868;
+    --neutral-color-50: transparent;
 }

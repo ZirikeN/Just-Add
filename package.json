@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.9.0",
     "@tailwindcss/vite": "^4.1.10",
     "axios": "^1.11.0",
     "pinia": "^3.0.3",

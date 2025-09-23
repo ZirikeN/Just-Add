@@ -12,7 +12,7 @@
                 class="flex justify-between text-[20px] text-[var(--neutral-color-30)] mont-semibold"
             >
                 <h3>{{ product.title }}</h3>
-                <span>€2</span>
+                <span>€{{ product.price }}</span>
             </a>
             <p class="text-[16px] text-[var(--neutral-color-30)] mont-regular pb-[24px]">
                 {{ product.description }}
