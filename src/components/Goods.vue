@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col m-4 rounded-[16px] bg-[var(--neutral-color-20)] pl-20 pt-[64px] pb-4">
         <div class="flex flex-wrap justify-between pb-[40px]">
-            <h1 class="mont-medium text-[64px] text-[var(--neutral-color-30)]">Наши вкусы</h1>
+            <h1 class="mont-medium text-[64px] text-[var(--neutral-color-30)]">Наши вкусы (популярное)</h1>
 
             <div class="flex flex-col max-w-[750px] gap-[16px]">
                 <p class="mont-medium text-[16px] text-[var(--neutral-color-30)]">
@@ -37,7 +37,7 @@
                 :speed="300"
                 :long-swipes-ratio="0.1"
             >
-                <swiper-slide v-for="(product, index) in products" :key="index">
+                <swiper-slide v-for="product in recommendedProducts" :key="product.id">
                     <Card :product="product" />
                 </swiper-slide>
             </swiper>
@@ -81,11 +81,10 @@ import 'swiper/css/navigation'
 
 const activeIndex = ref(0)
 const productsStore = useProductsStore()
-const { products, loading } = storeToRefs(productsStore)
-const { getProducts } = productsStore
+const { loading, recommendedProducts } = storeToRefs(productsStore)
 
 const progress = computed(() => {
-    return products.value.length ? ((activeIndex.value + 4) / products.value.length) * 100 : 0
+    return recommendedProducts.value.length ? ((activeIndex.value + 4) / recommendedProducts.value.length) * 100 : 0
 })
 
 const onSlideChange = (swiper) => {

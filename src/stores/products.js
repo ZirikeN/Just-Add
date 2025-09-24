@@ -51,6 +51,14 @@ export const useProductsStore = defineStore('products', () => {
         return filtered
     })
 
+    //Рекомендации
+    const recommendedProducts = computed(() => {
+        let popular = products.value
+        popular = popular.filter((product) => product.popular === true)        
+
+        return popular
+    })
+
     const setFilter = (filterType) => {
         activeFilter.value = filterType
     }
@@ -59,5 +67,5 @@ export const useProductsStore = defineStore('products', () => {
         sortBy.value = sortType
     }
 
-    return { products, loading, error, getProducts, filteredProducts, setFilter, activeFilter, sortBy, setSort }
+    return { products, loading, error, getProducts, filteredProducts, setFilter, activeFilter, sortBy, setSort, recommendedProducts }
 })
