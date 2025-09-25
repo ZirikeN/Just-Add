@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/views/Home.vue'
 import Catalog from '@/views/Catalog.vue'
+import Product from '@/views/Product.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,10 @@ const router = createRouter({
     {
       path: '/catalog',
       component: Catalog,
+    },
+    {
+      path: '/product/:id',
+      component: Product,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

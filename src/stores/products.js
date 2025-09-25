@@ -33,7 +33,7 @@ export const useProductsStore = defineStore('products', () => {
         if (activeFilter.value !== 'all') {
             filtered = filtered.filter((product) => product.type === activeFilter.value)
         }
-        
+
         switch (sortBy.value) {
             case 'price_asc':
                 filtered.sort((a, b) => a.price - b.price)
@@ -54,10 +54,15 @@ export const useProductsStore = defineStore('products', () => {
     //Рекомендации
     const recommendedProducts = computed(() => {
         let popular = products.value
-        popular = popular.filter((product) => product.popular === true)        
+        popular = popular.filter((product) => product.popular === true)
 
         return popular
     })
+
+    //Получение продукта по id
+    const getProductById = (id) => {
+        return products.value.find(product => product.id === id)
+    }
 
     const setFilter = (filterType) => {
         activeFilter.value = filterType
@@ -67,5 +72,17 @@ export const useProductsStore = defineStore('products', () => {
         sortBy.value = sortType
     }
 
-    return { products, loading, error, getProducts, filteredProducts, setFilter, activeFilter, sortBy, setSort, recommendedProducts }
+    return {
+        products,
+        loading,
+        error,
+        getProducts,
+        filteredProducts,
+        setFilter,
+        activeFilter,
+        sortBy,
+        setSort,
+        recommendedProducts,
+        getProductById,
+    }
 })
