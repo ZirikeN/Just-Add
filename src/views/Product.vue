@@ -8,7 +8,7 @@
                         <img :src="product.URL" :alt="product.title"  class="w-[650px] h-[650px]"/>
                     </div>
                     <div class="w-1/2 bg-[var(--neutral-color-20)] rounded-[16px] flex flex-col gap-4 pt-[48px] pb-[48px] pr-[40px] pl-[40px]">
-                        <span class="flex justify-end text-[18px] text-[var(--neutral-color-30)] mont-medium">Ариткул: {{ product.id }}</span>
+                        <span class="flex justify-end text-[18px] text-[var(--neutral-color-30)] mont-medium">Артикул: {{ product.id }}</span>
 
                         <h1 class="mont-medium text-[76px] text-[var(--neutral-color-30)]">{{ product.title }}</h1>
                         <h2 class="text-[24px] mont-medium text-[var(--neutral-color-30)]">{{ product.description }}</h2>
