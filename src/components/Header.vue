@@ -44,7 +44,7 @@
                         class="flex justify-center items-center gap-2 border-1 border-[#FF921C] rounded-[200px] pt-3 pb-3 pr-14 pl-14 mont-semibold text-[20px] transform hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] hover:text-[#fa8302] transform hover:-translate-y-1 transition-all duration-200"
                     >
                         <img src="@/assets/img/cart.svg" alt="Cart" />
-                        <span class="text-[var(--neutral-color-30)]">0</span>
+                        <span class="text-[var(--neutral-color-30)]">€{{ cartStore.subtotal.toFixed(2) }}</span>
                     </router-link>
                 </div>
                 <label class="theme-switch">
@@ -107,11 +107,13 @@
 import PopUp from './layout/PopUp.vue'
 
 import { useThemeStore } from '../stores/theme'
+import { useCartStore } from '@/stores/cart'
 
 import { inject } from 'vue'
 
 const { openModal } = inject('modalState')
 const themeStore = useThemeStore()
+const cartStore = useCartStore()
 </script>
 
 <style scoped>
