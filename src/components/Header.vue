@@ -23,10 +23,10 @@
                     >
                 </li>
                 <li>
-                    <a
-                        href="#"
+                    <router-link
+                        to="/contact"
                         class="border-1 border-[#FF921C] text-[var(--neutral-color-30)] rounded-[200px] pt-3 pb-3 pr-8 pl-8 mont-semibold text-[20px] inline-block hover:text-[#fa8302] transform hover:-translate-y-1 hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] transition-all duration-200"
-                        >Контакты</a
+                        >Контакты</router-link
                     >
                 </li>
             </ul>
