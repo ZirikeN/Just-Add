@@ -61,7 +61,7 @@ body {
     font-weight: 700;
 }
 
-.body{
+.body {
     background-color: var(--neutral-color-10);
 }
 
@@ -69,13 +69,21 @@ body {
     background: url('@/assets/img/hero-bg-anim.gif') 50% 100% / cover no-repeat;
 }
 
-.close-btn{
-    svg>g>path{
-        transition: all .15s linear;
+.lemonade {
+    background: url('@/assets/img/lemonade-bg.jpg') 50% 50% / cover no-repeat;
+}
+
+.tea {
+    background: url('@/assets/img/tea-bg.jpg') 50% 50% / cover no-repeat;
+}
+
+.close-btn {
+    svg > g > path {
+        transition: all 0.15s linear;
     }
 }
-.close-btn:hover{
-    svg>g>path{
+.close-btn:hover {
+    svg > g > path {
         stroke: #f30707;
     }
 }

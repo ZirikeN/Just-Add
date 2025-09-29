@@ -5,6 +5,7 @@ import Catalog from '@/views/Catalog.vue'
 import Product from '@/views/Product.vue'
 import Cart from '@/views/Cart.vue'
 import Success from '@/views/Success.vue'
+import AboutUs from '@/views/AboutUs.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +29,10 @@ const router = createRouter({
     {
       path: '/order-success',
       component: Success,
+    },
+    {
+      path: '/about-us',
+      component: AboutUs,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

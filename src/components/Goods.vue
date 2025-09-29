@@ -152,13 +152,13 @@ onBeforeUnmount(() => {
 
 .swiper-slide {
     width: 100% !important;
-    max-width: 380px;
+    max-width: 420px;
     margin: 0 auto;
 }
 
 .slide-content {
     width: 100%;
-    max-width: 380px;
+    max-width: 420px;
     margin: 0 auto;
 }
 

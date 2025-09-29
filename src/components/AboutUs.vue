@@ -13,7 +13,7 @@
             облагородьте свои повседневные моменты с JDrink. Приветствуем хорошую жизнь —
             естественно
         </p>
-        <a href="#" class="pt-[12px] pb-[12px] pr-[36px] pl-[36px] bg-transparent rounded-[200px] border-1 border-[var(--neutral-color-30)] text-[var(--neutral-color-30)] hover:bg-[var(--neutral-color-30)] hover:text-[var(--neutral-color-205)] transform hover:-translate-y-1 transition-all duration-200">О нас</a>
+        <router-link to="/about-us" class="pt-[12px] pb-[12px] pr-[36px] pl-[36px] bg-transparent rounded-[200px] border-1 border-[var(--neutral-color-30)] text-[var(--neutral-color-30)] hover:bg-[var(--neutral-color-30)] hover:text-[var(--neutral-color-205)] transform hover:-translate-y-1 transition-all duration-200">О нас</router-link>
     </div>
 </template>
 

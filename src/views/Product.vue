@@ -53,7 +53,7 @@
 
                             <button
                                 @click="addToCart"
-                                class="bg-[var(--neutral-color-30)] text-[var(--neutral-color-10)] px-8 py-3 rounded-full hover:bg-gray-300 transition-colors cursor-pointer"
+                                class="bg-[var(--neutral-color-30)] text-[var(--neutral-color-10)] px-8 py-3 rounded-full hover:bg-gray-300 hover:text-black transition-colors cursor-pointer"
                             >
                                 Добавить в корзину
                             </button>

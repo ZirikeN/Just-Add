@@ -22,7 +22,7 @@
                 <button
                     v-if="!isInCart"
                     @click="addToCart"
-                    class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] bg-black text-white rounded-[200px] border-1 border-black hover:bg-transparent hover:text-[var(--neutral-color-30)] transform hover:-translate-y-1 transition-all duration-200"
+                    class="pt-[14px] pb-[14px] pr-[36px] mont-regular pl-[36px] bg-black text-white rounded-[200px] border-1 border-black hover:bg-transparent hover:text-[var(--neutral-color-30)] transform hover:-translate-y-1 transition-all duration-200"
                 >
                     В корзину
                 </button>
@@ -53,7 +53,7 @@
 
                 <router-link
                     :to="`/product/${product.id}`"
-                    class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] rounded-[200px] border-1 border-black text-[var(--neutral-color-30)] hover:bg-black hover:text-white transform hover:-translate-y-1 transition-all duration-200"
+                    class="pt-[14px] pb-[14px] pr-[36px] pl-[36px] mont-regular rounded-[200px] border-1 border-black text-[var(--neutral-color-30)] hover:bg-black hover:text-white transform hover:-translate-y-1 transition-all duration-200"
                     >Подробнее</router-link
                 >
             </div>
