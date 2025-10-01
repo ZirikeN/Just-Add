@@ -10,7 +10,17 @@
                         Корзина
                     </h1>
 
-                    <div class="w-full rounded-lg overflow-hidden">
+                    <div v-if="cartStore.isEmpty" class="text-center py-12">
+                        <p class="text-[22px] text-[var(--neutral-color-30)] mont-medium mb-4">Корзина пуста</p>
+                        <router-link 
+                            to="/catalog" 
+                            class="text-[#FF921C] hover:text-orange-600 text-[20px] mont-medium"
+                        >
+                            Перейти к товарам
+                        </router-link>
+                    </div>
+
+                    <div v-else class="w-full rounded-lg overflow-hidden">
                         <table
                             class="min-w-full divide-y divide-[var(--neutral-color-30)] bg-[var(--neutral-color-20)]"
                         >
@@ -47,7 +57,7 @@
                                 >
                                     <td class="px-4 py-3 flex gap-4 items-center">
                                         <img
-                                            class="w-[100px] h-[100px]"
+                                            class="w-[100px] h-[100px] object-cover"
                                             :src="item.URL"
                                             :alt="item.title"
                                         />
@@ -169,30 +179,148 @@
                     </div>
 
                     <button
-                        @click="checkout"
-                        :disabled="cartStore.isEmpty || isCheckingOut"
-                        class="flex justify-center items-center border-1 border-[#FF921C] bg-[#FF921C] text-white mont-medium text-[18px] rounded-[200px] pt-4 pb-4 pr-8 pl-8 transform hover:-translate-y-1 hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] transition-all duration-200 cursor-pointer"
+                        @click="openCheckoutModal"
+                        :disabled="cartStore.isEmpty"
+                        class="flex justify-center items-center border-1 border-[#FF921C] bg-[#FF921C] text-white mont-medium text-[18px] rounded-[200px] pt-4 pb-4 pr-8 pl-8 transform hover:-translate-y-1 hover:shadow-[0_0_15px_5px_rgba(255,146,28,0.5)] transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {{ isCheckingOut ? 'Оформление...' : 'Оформить заказ' }}
+                        Оформить заказ
                     </button>
                 </div>
             </div>
         </main>
         <Footer></Footer>
+
+        <!-- Модальное окно оформления заказа -->
+        <div
+            v-if="showCheckoutModal"
+            @click="closeCheckoutModal"
+            class="z-50 fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex items-center justify-center"
+        >
+            <div 
+                class="bg-white rounded-[20px] p-8 max-w-md w-full mx-4"
+                @click.stop
+            >
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold text-gray-800">Оформление заказа</h3>
+                    <button @click="closeCheckoutModal" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <form @submit.prevent="processCheckout" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                        <input
+                            v-model="checkoutForm.name"
+                            type="text"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            placeholder="Ваше имя"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input
+                            v-model="checkoutForm.email"
+                            type="email"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            placeholder="your@email.com"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+                        <input
+                            v-model="checkoutForm.phone"
+                            type="tel"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            placeholder="+7 (XXX) XXX-XX-XX"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Адрес доставки</label>
+                        <textarea
+                            v-model="checkoutForm.address"
+                            required
+                            rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            placeholder="Полный адрес доставки"
+                        ></textarea>
+                    </div>
+
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span>Итого к оплате:</span>
+                            <span>€{{ cartStore.totalPrice.toFixed(2) }}</span>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        :disabled="isCheckingOut"
+                        class="w-full bg-[#FF921C] hover:bg-orange-600 text-white py-3 px-4 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {{ isCheckingOut ? 'Оформление...' : 'Подтвердить заказ' }}
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
-
 import { useCartStore } from '@/stores/cart'
-import { ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const cartStore = useCartStore()
+const userStore = useUserStore()
+
+const showCheckoutModal = ref(false)
 const isCheckingOut = ref(false)
+
+const checkoutForm = reactive({
+    name: '',
+    email: '',
+    phone: '',
+    address: ''
+})
+
+// Автозаполнение формы данными пользователя, если он авторизован
+const openCheckoutModal = () => {
+    if (!userStore.isAuthenticated) {
+        alert('Для оформления заказа необходимо авторизоваться')
+        return
+    }
+
+    if (userStore.userProfile) {
+        checkoutForm.name = userStore.userProfile.name || ''
+        checkoutForm.email = userStore.userProfile.email || ''
+    }
+    
+    showCheckoutModal.value = true
+}
+
+const closeCheckoutModal = () => {
+    showCheckoutModal.value = false
+    // Сброс формы при закрытии
+    Object.assign(checkoutForm, {
+        name: userStore.userProfile?.name || '',
+        email: userStore.userProfile?.email || '',
+        phone: '',
+        address: ''
+    })
+}
 
 const increaseQuantity = (productId) => {
     const item = cartStore.items.find((item) => item.id === productId)
@@ -201,54 +329,58 @@ const increaseQuantity = (productId) => {
 
 const decreaseQuantity = (productId) => {
     const item = cartStore.items.find((item) => item.id === productId)
-    cartStore.updateQuantity(productId, item.quantity - 1)
+    if (item.quantity > 1) {
+        cartStore.updateQuantity(productId, item.quantity - 1)
+    } else {
+        removeItem(productId)
+    }
 }
 
 const removeItem = (productId) => {
     cartStore.removeFromCart(productId)
 }
 
-const checkout = async () => {
-    if (cartStore.isEmpty) return
+const processCheckout = async () => {
+    if (!userStore.isAuthenticated) {
+        alert('Для оформления заказа необходимо авторизоваться')
+        return
+    }
 
     isCheckingOut.value = true
 
     try {
-        // Подготовка данных для отправки
-        const orderData = {
-            items: cartStore.items.map((item) => ({
-                productId: item.id,
+        // Создаем заказ через userStore
+        const order = await userStore.addOrder({
+            items: cartStore.items.map(item => ({
+                id: item.id,
                 title: item.title,
-                quantity: item.quantity,
                 price: item.price,
-                type: item.type,
+                quantity: item.quantity,
+                imageUrl: item.URL,
+                description: item.description
             })),
+            total: cartStore.totalPrice,
             subtotal: cartStore.subtotal,
             delivery: cartStore.deliveryCost,
-            total: cartStore.totalPrice,
-            timestamp: new Date().toISOString(),
-        }
-
-        // Отправка данных на API
-        const response = await fetch('https://5220dc4fa3a59570.mokky.dev/orders', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(orderData),
+            address: checkoutForm.address,
+            phone: checkoutForm.phone,
+            customerName: checkoutForm.name,
+            customerEmail: checkoutForm.email
         })
 
-        if (response.ok) {
-            // Очистка корзины после успешного оформления
-            cartStore.clearCart()
+        console.log('Order created successfully:', order)
 
-            // Переход на страницу подтверждения
-            router.push('/order-success')
-        } else {
-            throw new Error('Ошибка при оформлении заказа')
-        }
+        // Очищаем корзину
+        cartStore.clearCart()
+
+        // Закрываем модальное окно
+        closeCheckoutModal()
+
+        // Переходим на страницу подтверждения заказа
+        router.push(`/order-success/${order.id}`)
+
     } catch (error) {
-        console.error('Ошибка:', error)
+        console.error('Ошибка при оформлении заказа:', error)
         alert('Произошла ошибка при оформлении заказа. Попробуйте еще раз.')
     } finally {
         isCheckingOut.value = false
@@ -256,4 +388,8 @@ const checkout = async () => {
 }
 </script>
 
-<style></style>
+<style scoped>
+.close-btn:hover path {
+    stroke: #ff4444;
+}
+</style>

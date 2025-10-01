@@ -13,6 +13,7 @@
     "@formkit/auto-animate": "^0.9.0",
     "@tailwindcss/vite": "^4.1.10",
     "axios": "^1.11.0",
+    "firebase": "^12.3.0",
     "pinia": "^3.0.3",
     "swiper": "^11.2.10",
     "tailwindcss": "^4.1.10",

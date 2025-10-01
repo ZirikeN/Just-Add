@@ -25,7 +25,7 @@
                         </button>
                     </div>
 
-                    <div class="">
+                    <div>
                         <select
                             v-model="selectedSort"
                             @change="handleSortChange"

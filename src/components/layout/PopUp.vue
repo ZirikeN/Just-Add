@@ -4,62 +4,92 @@
         @click="handleBackdropClick"
         class="z-10 fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] flex items-center justify-center"
     >
-        <div 
-            class="wrapper z-100"
-            @click.stop
-        >
+        <div class="wrapper z-100" @click.stop>
             <div class="card-switch">
                 <label class="switch">
-                    <input type="checkbox" class="toggle cursor-pointer" />
+                    <input type="checkbox" class="toggle cursor-pointer" v-model="isSignUpMode" />
                     <span class="slider"></span>
                     <span class="card-side cursor-pointer"></span>
                     <div class="flip-card__inner">
+                        <!-- Фронтальная сторона - Вход -->
                         <div class="flip-card__front">
                             <div class="flex justify-end">
-                                <button @click="closeModal" class="w-[38px] h-[38px] cursor-pointer">
-                                    <img src="@/assets/img/close.svg" alt="Close">
+                                <button
+                                    @click="closeModal"
+                                    class="w-[38px] h-[38px] cursor-pointer"
+                                >
+                                    <img src="@/assets/img/close.svg" alt="Close" />
                                 </button>
                             </div>
                             <div class="title mont-medium text-[32px] text-white">Вход</div>
-                            <form class="flip-card__form" action="">
+                            <form class="flip-card__form" @submit.prevent="handleLogin">
                                 <input
                                     class="flip-card__input"
-                                    name="email"
+                                    v-model="loginForm.email"
                                     placeholder="Email"
                                     type="email"
+                                    required
                                 />
                                 <input
                                     class="flip-card__input"
-                                    name="password"
+                                    v-model="loginForm.password"
                                     placeholder="Пароль"
                                     type="password"
+                                    required
+                                    minlength="6"
                                 />
-                                <button class="flip-card__btn">Войти</button>
+                                <button class="flip-card__btn" type="submit" :disabled="isLoading">
+                                    {{ isLoading ? 'Загрузка...' : 'Войти' }}
+                                </button>
                             </form>
+                            <p v-if="errorMessage" class="error-message text-red-500 text-sm mt-2">
+                                {{ errorMessage }}
+                            </p>
                         </div>
+
+                        <!-- Задняя сторона - Регистрация -->
                         <div class="flip-card__back">
                             <div class="flex justify-end">
-                                <button @click="closeModal" class="w-[38px] h-[38px] cursor-pointer">
-                                    <img src="@/assets/img/close.svg" alt="Close">
+                                <button
+                                    @click="closeModal"
+                                    class="w-[38px] h-[38px] cursor-pointer"
+                                >
+                                    <img src="@/assets/img/close.svg" alt="Close" />
                                 </button>
                             </div>
-                            <div class="title mont-medium text-[26px] text-white">Зарегистрироваться</div>
-                            <form class="flip-card__form" action="">
-                                <input class="flip-card__input" placeholder="Имя" type="name" />
+                            <div class="title mont-medium text-[26px] text-white">
+                                Зарегистрироваться
+                            </div>
+                            <form class="flip-card__form" @submit.prevent="handleRegister">
                                 <input
                                     class="flip-card__input"
-                                    name="email"
+                                    v-model="registerForm.name"
+                                    placeholder="Имя"
+                                    type="text"
+                                    required
+                                />
+                                <input
+                                    class="flip-card__input"
+                                    v-model="registerForm.email"
                                     placeholder="Email"
                                     type="email"
+                                    required
                                 />
                                 <input
                                     class="flip-card__input"
-                                    name="password"
+                                    v-model="registerForm.password"
                                     placeholder="Пароль"
                                     type="password"
+                                    required
+                                    minlength="6"
                                 />
-                                <button class="flip-card__btn">Войти</button>
+                                <button class="flip-card__btn" type="submit" :disabled="isLoading">
+                                    {{ isLoading ? 'Загрузка...' : 'Войти' }}
+                                </button>
                             </form>
+                            <p v-if="errorMessage" class="error-message text-red-500 text-sm mt-2">
+                                {{ errorMessage }}
+                            </p>
                         </div>
                     </div>
                 </label>
@@ -69,15 +99,35 @@
 </template>
 
 <script setup>
-import { inject, watch } from 'vue'
+import { inject, ref, reactive, watch } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
 const { isModalOpen, closeModal } = inject('modalState')
+const userStore = useUserStore()
+
+// Состояние компонента
+const isSignUpMode = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+// Формы
+const loginForm = reactive({
+    email: '',
+    password: '',
+})
+
+const registerForm = reactive({
+    name: '',
+    email: '',
+    password: '',
+})
 
 // Функция для отключения/включения скролла
 const toggleBodyScroll = (disable) => {
     if (disable) {
         document.body.style.overflow = 'hidden'
-        document.body.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px'
+        document.body.style.paddingRight =
+            window.innerWidth - document.documentElement.clientWidth + 'px'
     } else {
         document.body.style.overflow = ''
         document.body.style.paddingRight = ''
@@ -87,6 +137,10 @@ const toggleBodyScroll = (disable) => {
 // Следим за изменениями состояния модального окна
 watch(isModalOpen, (newVal) => {
     toggleBodyScroll(newVal)
+    if (!newVal) {
+        // Сбрасываем форму при закрытии
+        resetForms()
+    }
 })
 
 // Закрытие при клике на пустую область
@@ -95,16 +149,97 @@ const handleBackdropClick = (event) => {
         closeModal()
     }
 }
+
+// Обработка входа
+const handleLogin = async () => {
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+        const result = await userStore.login({
+            email: loginForm.email,
+            password: loginForm.password,
+        })
+
+        if (result.success) {
+            closeModal()
+            resetForms()
+        } else {
+            errorMessage.value = getErrorMessage(result.error)
+        }
+    } catch (error) {
+        errorMessage.value = 'Произошла ошибка при входе'
+    } finally {
+        isLoading.value = false
+    }
+}
+
+// Обработка регистрации
+const handleRegister = async () => {
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+        const result = await userStore.register({
+            email: registerForm.email,
+            password: registerForm.password,
+            name: registerForm.name,
+        })
+
+        if (result.success) {
+            closeModal()
+            resetForms()
+        } else {
+            errorMessage.value = getErrorMessage(result.error)
+        }
+    } catch (error) {
+        errorMessage.value = 'Произошла ошибка при регистрации'
+    } finally {
+        isLoading.value = false
+    }
+}
+
+// Перевод ошибок Firebase на русский
+const getErrorMessage = (error) => {
+    if (error.includes('auth/email-already-in-use')) {
+        return 'Этот email уже используется'
+    } else if (error.includes('auth/invalid-email')) {
+        return 'Неверный формат email'
+    } else if (error.includes('auth/weak-password')) {
+        return 'Пароль должен содержать минимум 6 символов'
+    } else if (error.includes('auth/user-not-found')) {
+        return 'Пользователь с таким email не найден'
+    } else if (error.includes('auth/wrong-password')) {
+        return 'Неверный пароль'
+    } else if (error.includes('auth/too-many-requests')) {
+        return 'Слишком много попыток. Попробуйте позже'
+    } else {
+        return 'Произошла ошибка. Попробуйте еще раз'
+    }
+}
+
+// Сброс форм
+const resetForms = () => {
+    loginForm.email = ''
+    loginForm.password = ''
+    registerForm.name = ''
+    registerForm.email = ''
+    registerForm.password = ''
+    errorMessage.value = ''
+    isLoading.value = false
+}
 </script>
 
 <style scoped>
 .wrapper {
-    --input-focus: #FF921C;
+    --input-focus: #ff921c;
     --font-color: #323232;
     --font-color-sub: #666;
     --bg-color: #fff;
     --bg-color-alt: #666;
+    --main-color: #000;
 }
+
 /* switch card */
 .switch {
     transform: translateY(-200px);
@@ -196,7 +331,7 @@ const handleBackdropClick = (event) => {
 
 .flip-card__inner {
     width: 380px;
-    height: 350px;
+    height: 400px;
     position: relative;
     background-color: transparent;
     perspective: 1000px;
@@ -286,5 +421,14 @@ const handleBackdropClick = (event) => {
     font-weight: 600;
     color: var(--font-color);
     cursor: pointer;
+}
+
+.flip-card__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error-message {
+    min-height: 20px;
 }
 </style>

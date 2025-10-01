@@ -76,14 +76,16 @@ import Header from '@/components/Header.vue'
 import Contact from '@/components/Contact.vue'
 import Footer from '@/components/Footer.vue'
 
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
+import { useUserStore } from '@/stores/userStore'
 
 const route = useRoute()
 const productsStore = useProductsStore()
 const cartStore = useCartStore()
+const userStore = useUserStore()
 
 const quantity = ref(1)
 
@@ -91,6 +93,9 @@ const product = computed(() => {
     const productId = +route.params.id
     return productsStore.getProductById(productId)
 })
+
+// Получаем modalState для открытия PopUp при необходимости
+const { openModal } = inject('modalState', { openModal: () => {} })
 
 const increaseQuantity = () => {
     quantity.value++
@@ -103,6 +108,12 @@ const decreaseQuantity = () => {
 }
 
 const addToCart = () => {
+    if (!userStore.isAuthenticated) {
+        // Если пользователь не авторизован, открываем PopUp
+        openModal()
+        return
+    }
+
     for (let i = 0; i < quantity.value; i++) {
         cartStore.addTocart(product.value)
     }

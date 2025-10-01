@@ -18,7 +18,7 @@
                         >
                     </li>
                     <li>
-                        <a href="#" class="hover:text-[#FF921C] transition-all">Контакты</a>
+                        <router-link to="/contact" class="hover:text-[#FF921C] transition-all">Контакты</router-link>
                     </li>
                 </ul>
             </div>
