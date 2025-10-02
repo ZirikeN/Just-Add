@@ -1,6 +1,6 @@
 <template>
     <div class="slide-content bg-[var(--neutral-color-40)] rounded-[20px] relative">
-        <img :src="product.URL" :alt="product.title" class="w-[380px] h-[345px] m-auto" />
+        <img :src="getImageUrl(product.URL)" :alt="product.title" class="w-[380px] h-[345px] m-auto" />
 
         <!-- Кнопка избранного -->
         <div
@@ -82,6 +82,10 @@ import likeFilledIcon from '@/assets/img/like-filled.svg'
 const props = defineProps(['product'])
 const cartStore = useCartStore()
 const userStore = useUserStore()
+
+const getImageUrl = (filename) => {
+    return new URL(`/src/assets/img/${filename}`, import.meta.url).href
+}
 
 // Получаем modalState для открытия PopUp при необходимости
 const { openModal } = inject('modalState', { openModal: () => {} })
