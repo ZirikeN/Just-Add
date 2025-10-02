@@ -94,7 +94,7 @@
                                 class="border-3 rounded-[20px] p-4 border-[#FF921C] relative"
                             >
                                 <img
-                                    :src="product.imageUrl"
+                                    :src="getImageUrl(product.imageUrl)"
                                     :alt="product.title"
                                     class="w-[380px] h-[345px] m-auto object-cover"
                                 />
@@ -385,6 +385,10 @@ const tabs = [
 const userProfile = computed(() => userStore.userProfile)
 const favorites = computed(() => userStore.favorites)
 const orders = computed(() => userStore.orders)
+
+const getImageUrl = (filename) => {
+    return new URL(`/src/assets/img/${filename}`, import.meta.url).href
+}
 
 const sortedOrders = computed(() => {
     return [...orders.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

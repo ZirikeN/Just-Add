@@ -99,7 +99,7 @@
                                 class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg"
                             >
                                 <img
-                                    :src="item.imageUrl"
+                                    :src="getImageUrl(item.imageUrl)"
                                     :alt="item.title"
                                     class="w-16 h-16 object-cover rounded"
                                 />
@@ -158,6 +158,10 @@ const orderId = route.params.id
 const order = computed(() => {
     return userStore.getOrderById(orderId)
 })
+
+const getImageUrl = (filename) => {
+    return new URL(`/src/assets/img/${filename}`, import.meta.url).href
+}
 
 const statusClasses = {
     pending: 'bg-yellow-100 text-yellow-800',

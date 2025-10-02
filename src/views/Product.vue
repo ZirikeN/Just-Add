@@ -5,7 +5,7 @@
             <div class="mb-4 mr-4 ml-4 rounded-[16px]">
                 <div v-if="product" class="flex gap-4">
                     <div class="w-1/2 bg-[#e8e0a1] flex justify-center rounded-[16px]">
-                        <img :src="product.URL" :alt="product.title" class="w-[650px] h-[650px]" />
+                        <img :src="getImageUrl(product.URL)" :alt="product.title" class="w-[650px] h-[650px]" />
                     </div>
                     <div
                         class="w-1/2 bg-[var(--neutral-color-20)] rounded-[16px] flex flex-col gap-4 pt-[48px] pb-[48px] pr-[40px] pl-[40px]"
@@ -93,6 +93,10 @@ const product = computed(() => {
     const productId = +route.params.id
     return productsStore.getProductById(productId)
 })
+
+const getImageUrl = (filename) => {
+    return new URL(`/src/assets/img/${filename}`, import.meta.url).href
+}
 
 // Получаем modalState для открытия PopUp при необходимости
 const { openModal } = inject('modalState', { openModal: () => {} })

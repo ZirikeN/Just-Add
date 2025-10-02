@@ -58,7 +58,7 @@
                                     <td class="px-4 py-3 flex gap-4 items-center">
                                         <img
                                             class="w-[100px] h-[100px] object-cover"
-                                            :src="item.URL"
+                                            :src="getImageUrl(item.URL)"
                                             :alt="item.title"
                                         />
                                         <span
@@ -295,6 +295,10 @@ const checkoutForm = reactive({
     phone: '',
     address: ''
 })
+
+const getImageUrl = (filename) => {
+    return new URL(`/src/assets/img/${filename}`, import.meta.url).href
+}
 
 // Автозаполнение формы данными пользователя, если он авторизован
 const openCheckoutModal = () => {
